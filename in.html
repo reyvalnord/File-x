@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLASSIFIED DOCUMENT</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Special+Elite&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --paper-color: #eaddc5;
+      --ink-color: #2b2b2b; 
+      --red-stamp: #c23b3b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #1a1a1a;
+      display: flex;
+      justify-content: center;
+      padding: 50px 20px;
+      min-height: 100vh;
+      font-family: 'Special Elite', monospace;
+      color: var(--ink-color);
+      text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.4), 0px 0px 2px rgba(0,0,0,0.1);
+    }
+
+    /* Kertas Dokumen */
+    .document-paper {
+      background-color: var(--paper-color);
+      width: 100%;
+      max-width: 650px;
+      min-height: 800px;
+      padding: 60px 50px;
+      position: relative;
+      border-radius: 3px;
+      
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.8),
+        inset 0 0 80px rgba(139, 115, 85, 0.3),
+        inset 0 0 20px rgba(100, 80, 50, 0.2);
+      
+      background-image: 
+        linear-gradient(to bottom, transparent 32%, rgba(0,0,0,0.04) 33%, rgba(255,255,255,0.2) 33.5%, transparent 35%),
+        linear-gradient(to bottom, transparent 65%, rgba(0,0,0,0.04) 66%, rgba(255,255,255,0.2) 66.5%, transparent 68%),
+        linear-gradient(to right, transparent 49%, rgba(0,0,0,0.03) 50%, rgba(255,255,255,0.15) 50.5%, transparent 52%),
+        radial-gradient(circle at 20% 80%, rgba(0,0,0,0.03) 0%, transparent 40%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
+      
+      overflow: hidden;
+      transform: rotate(-0.5deg);
+    }
+
+    /* Header & Barcode */
+    .header-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 40px;
+      font-size: 0.7rem; /* Font diperkecil */
+      color: rgba(43, 43, 43, 0.85);
+      border-bottom: 1px dashed rgba(0,0,0,0.2);
+      padding-bottom: 15px;
+    }
+
+    .registered-box {
+      background-color: rgba(0,0,0,0.05);
+      padding: 6px 10px;
+      border-radius: 2px;
+      border: 1px solid rgba(0,0,0,0.1);
+      transform: rotate(-2deg);
+      letter-spacing: 1px;
+      display: inline-block;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+    }
+
+    .report-meta {
+      text-align: right;
+    }
+
+    .report-num {
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .barcode {
+      width: 100px;
+      height: 18px;
+      background: repeating-linear-gradient(
+        to right,
+        var(--ink-color) 0, var(--ink-color) 2px, transparent 2px, transparent 4px,
+        var(--ink-color) 4px, var(--ink-color) 5px, transparent 5px, transparent 8px,
+        var(--ink-color) 8px, var(--ink-color) 12px, transparent 12px, transparent 14px
+      );
+      opacity: 0.7;
+      margin-left: auto;
+      filter: blur(0.3px);
+    }
+
+    /* Cap Top Secret */
+    .top-secret-stamp {
+      position: absolute;
+      top: 90px;
+      right: 40px;
+      color: var(--red-stamp);
+      border: 3px solid var(--red-stamp);
+      border-radius: 4px;
+      font-size: 1.4rem; /* Font diperkecil */
+      font-weight: bold;
+      padding: 6px 12px;
+      transform: rotate(4deg);
+      letter-spacing: 4px;
+      mix-blend-mode: multiply;
+      opacity: 0.85;
+      pointer-events: none;
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.8'/%3E%3C/svg%3E"), linear-gradient(black, black);
+      -webkit-mask-composite: destination-in;
+      mask-composite: intersect;
+      text-shadow: 0px 0px 2px rgba(194, 59, 59, 0.4);
+    }
+    
+    .top-secret-stamp::before {
+      content: '';
+      position: absolute;
+      top: 2px; left: 2px; right: 2px; bottom: 2px;
+      border: 1px solid var(--red-stamp);
+    }
+
+    /* Judul Klasifikasi */
+    .classified-title {
+      text-align: center;
+      font-size: 1.2rem; /* Font diperkecil */
+      letter-spacing: 10px;
+      margin: 60px 0 50px;
+      font-weight: bold;
+      color: var(--ink-color);
+      text-decoration: underline;
+      text-underline-offset: 6px;
+      text-decoration-thickness: 1px;
+    }
+
+    /* Area Konten Utama */
+    .content-area {
+      font-size: 0.85rem; /* Font diperkecil */
+      line-height: 1.9;
+      margin-bottom: 40px;
+      padding: 0 20px;
+    }
+
+    .content-area p {
+      margin-bottom: 12px;
+      display: flex;
+    }
+
+    .label-text {
+      width: 110px; /* Disesuaikan dengan ukuran font baru */
+      display: inline-block;
+      opacity: 0.85;
+      font-weight: bold;
+    }
+
+    /* Pesan Rahasia */
+    .message-box {
+      margin-top: 50px;
+      padding: 20px;
+      border-left: 3px solid rgba(0,0,0,0.2);
+      background: linear-gradient(to right, rgba(0,0,0,0.03), transparent);
+      color: rgba(20, 20, 20, 0.95);
+    }
+
+    /* Area Tanda Tangan */
+    .signatures {
+      margin-top: 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding-right: 40px;
+      font-size: 0.8rem; /* Font diperkecil */
+    }
+
+    .signature-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      margin-top: 15px;
+      position: relative;
+    }
+
+    .signature-text {
+      font-family: 'Caveat', cursive;
+      font-size: 1.8rem; /* Font diperkecil */
+      color: #1a365d; 
+      transform: rotate(-4deg);
+      text-shadow: none;
+      mix-blend-mode: multiply;
+      opacity: 0.9;
+    }
+    
+    .signature-text.last-name {
+      font-size: 2.2rem; /* Font diperkecil */
+      transform: rotate(2deg);
+    }
+
+    @media (max-width: 600px) {
+      .document-paper { padding: 40px 25px; transform: none; }
+      .top-secret-stamp { font-size: 1rem; top: 80px; right: 15px; letter-spacing: 2px; }
+      .classified-title { font-size: 1rem; letter-spacing: 6px; }
+      .content-area { padding: 0 5px; }
+      .signatures { padding-right: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="document-paper">
+    
+    <div class="header-info">
+      <div class="registered-box">
+        REGISTERED<br>
+        #162175b0
+      </div>
+      <div class="report-meta">
+        <div class="report-num">REPORT: 00165789</div>
+        <div class="barcode"></div>
+      </div>
+    </div>
+
+    <div class="top-secret-stamp">
+      TOP SECRET
+    </div>
+
+    <div class="classified-title">
+      INFORMANT PROFILE
+    </div>
+
+    <div class="content-area">
+      
+      <div>
+        <p><span class="label-text">Latitude</span>: 37°23'23.3"N</p>
+        <p><span class="label-text">Longitude</span>: 122°04'53.0"W</p>
+        <p><span class="label-text">Identity</span>: Corrupted</p>
+        <p><span class="label-text">Status</span>: Hidden</p>
+      </div>
+
+      <div class="message-box">
+        <p style="text-align: justify;">
+          "From a distance, it looks chaotic. From the right angle, every piece has its place. 
+          Don’t rush to look for it. Wait until the last day before the weekend, then look 
+          for the sign that always appears in the same three forms."
+        </p>
+      </div>
+    </div>
+
+    <div class="signatures">
+      <div style="letter-spacing: 1px; opacity: 0.7;">Authorized By:</div>
+      <div class="signature-group">
+        <div class="signature-text">j. </div>
+        <div class="signature-text last-name">Armstrong</div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
